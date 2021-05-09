@@ -1,0 +1,28 @@
+{
+  "name": "qna",
+  "version": "1.0.0",
+  "description": "A question and answer game apis",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rohit52594/qna.git"
+  },
+  "keywords": [
+    "qna",
+    "questions",
+    "and",
+    "answers"
+  ],
+  "author": "Rohit Sahu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rohit52594/qna/issues"
+  },
+  "homepage": "https://github.com/rohit52594/qna#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
