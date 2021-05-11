@@ -1,7 +1,8 @@
-import Subjects from '../models/SubjectsModel.mjs'
+import SubjectsSchema from '../models/SubjectsModel.mjs'
+import fs from 'fs/promises'
 
 export const GetSubjects = (req, res, next) => {
-    Subjects
+    SubjectsSchema
         .find()
         .then((subjectsList) => {
             res.status(200)
@@ -18,7 +19,7 @@ export const GetSubjects = (req, res, next) => {
 }
 
 export const AddSubject = (req, res, next) => {
-    let subject = new Subjects({
+    let subject = new SubjectsSchema({
         ...req.body
     })
         .save()
@@ -39,8 +40,8 @@ export const AddSubject = (req, res, next) => {
 export const UpdateSubject = async (req, res, next) => {
     const subjectId = req.params.subjectId
     try {
-        if (await Subjects.findById(subjectId)) {
-            const result = await Subjects.updateOne(
+        if (await SubjectsSchema.findById(subjectId)) {
+            const result = await SubjectsSchema.updateOne(
                 { _id: subjectId },
                 {
                     $set: req.body
@@ -67,7 +68,7 @@ export const UpdateSubject = async (req, res, next) => {
 export const GetSubjectById = async (req, res, next) => {
     const subjectId = req.params.subjectId
     try {
-        const result = await Subjects.findById(subjectId)
+        const result = await SubjectsSchema.findById(subjectId)
         if (result) {
             res.status(200).json({
                 result
@@ -78,7 +79,7 @@ export const GetSubjectById = async (req, res, next) => {
                 subjectId
             })
         }
-    } catch (err){
+    } catch (err) {
         res.status(500).json({
             message: 'An error occured',
             subjectId

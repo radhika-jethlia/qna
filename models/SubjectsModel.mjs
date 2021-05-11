@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const Subjects = new mongoose.Schema({
+const SubjectsSchema = new mongoose.Schema({
     subject: {
         type: String,
         required: true,
@@ -11,10 +11,14 @@ const Subjects = new mongoose.Schema({
         required: true,
         default: new Date
     },
+    file_name: {
+        type: String,
+        required: true
+    },
     is_active: {
         type: String,
         default: "Active"
     }
 })
 
-export default mongoose.model('subjects', Subjects)
+export default mongoose.model('subjects', SubjectsSchema)
