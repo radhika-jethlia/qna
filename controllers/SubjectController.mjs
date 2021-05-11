@@ -46,7 +46,6 @@ export const UpdateSubject = async (req, res, next) => {
                     $set: req.body
                 }
             )
-            console.log(res)
             res.status(201).json({
                 message: 'Subject updated',
                 result
@@ -58,10 +57,31 @@ export const UpdateSubject = async (req, res, next) => {
             })
         }
     } catch (err) {
-        console.log(err)
         res.status(500).json({
             message: 'An error occured',
             err
+        })
+    }
+}
+
+export const GetSubjectById = async (req, res, next) => {
+    const subjectId = req.params.subjectId
+    try {
+        const result = await Subjects.findById(subjectId)
+        if (result) {
+            res.status(200).json({
+                result
+            })
+        } else {
+            res.status(404).json({
+                message: 'Subject not found',
+                subjectId
+            })
+        }
+    } catch (err){
+        res.status(500).json({
+            message: 'An error occured',
+            subjectId
         })
     }
 }
