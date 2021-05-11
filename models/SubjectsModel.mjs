@@ -1,17 +1,19 @@
 import mongoose from 'mongoose'
 
 const Subjects = new mongoose.Schema({
-    subject_id: {
-        type: Number,
-        required: true
-    },
     subject: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     added_on: {
         type: Date,
-        required: true
+        required: true,
+        default: new Date
+    },
+    is_active: {
+        type: String,
+        default: "Active"
     }
 })
 
