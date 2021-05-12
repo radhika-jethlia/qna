@@ -1,6 +1,5 @@
-import SubjectsSchema from '../models/SubjectsModel.mjs'
 import fs from 'fs'
-import { SUBJECT_UPLOAD_PATH, __dirname } from '../Paths.mjs'
+import SubjectsSchema from '../models/SubjectsModel.mjs'
 
 export const GetSubjects = (req, res, next) => {
     SubjectsSchema
@@ -14,40 +13,33 @@ export const GetSubjects = (req, res, next) => {
         .catch((error) => {
             res.status(500)
                 .json({
-                    message: 'Error fetching subjects.'
+                    message: 'Error fetching subjects.',
+                    error
                 })
         })
 }
 
 export const AddSubject = (req, res, next) => {
-    if (!req.files || Object.keys(req.files).length === 0) {
+    if (!req.file) {
         return res.status(400).json({
-            message: 'No files selected to upload.'
-        });
+            message: 'Please select an image'
+        })
     }
-    let file_name = SUBJECT_UPLOAD_PATH + req.files.subject_file.name
-    req.files.subject_file.mv(__dirname + SUBJECT_UPLOAD_PATH + req.files.subject_file.name, (err) => {
-        if (err) {
-            return res.status(500).json({
-                message: 'Error uploading file',
-                err
-            })
-        }
-    })
+    let file_name = req.file.destination + '/' + req.file.filename
     new SubjectsSchema({
         ...req.body,
         file_name
     })
         .save()
         .then((subject) => {
-            return res.status(201).json({
+            res.status(201).json({
                 message: 'Subject added successfully',
                 subject
             })
         })
         .catch(err => {
-            fs.unlinkSync(__dirname + file_name)
-            return res.status(500).json({
+            fs.unlinkSync(file_name)
+            res.status(500).json({
                 message: 'Error adding subject',
                 err
             })
@@ -56,14 +48,23 @@ export const AddSubject = (req, res, next) => {
 
 export const UpdateSubject = async (req, res, next) => {
     const subjectId = req.params.subjectId
+    if (req.file) {
+        let file_name = req.file.destination + '/' + req.file.filename
+        req.body = {
+            ...req.body,
+            file_name
+        }
+    }
     try {
-        if (await SubjectsSchema.findById(subjectId)) {
+        let subjectDetails = await SubjectsSchema.findById(subjectId)
+        if (subjectDetails._id) {
             const result = await SubjectsSchema.updateOne(
                 { _id: subjectId },
                 {
                     $set: req.body
                 }
             )
+            req.file && fs.unlinkSync(subjectDetails.file_name)
             res.status(201).json({
                 message: 'Subject updated',
                 result
