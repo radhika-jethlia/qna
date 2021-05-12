@@ -1,5 +1,6 @@
 import SubjectsSchema from '../models/SubjectsModel.mjs'
-import fs from 'fs/promises'
+import fs from 'fs'
+import { SUBJECT_UPLOAD_PATH, __dirname } from '../Paths.mjs'
 
 export const GetSubjects = (req, res, next) => {
     SubjectsSchema
@@ -19,18 +20,34 @@ export const GetSubjects = (req, res, next) => {
 }
 
 export const AddSubject = (req, res, next) => {
-    let subject = new SubjectsSchema({
-        ...req.body
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).json({
+            message: 'No files selected to upload.'
+        });
+    }
+    let file_name = SUBJECT_UPLOAD_PATH + req.files.subject_file.name
+    req.files.subject_file.mv(__dirname + SUBJECT_UPLOAD_PATH + req.files.subject_file.name, (err) => {
+        if (err) {
+            return res.status(500).json({
+                message: 'Error uploading file',
+                err
+            })
+        }
+    })
+    new SubjectsSchema({
+        ...req.body,
+        file_name
     })
         .save()
         .then((subject) => {
-            res.status(201).json({
+            return res.status(201).json({
                 message: 'Subject added successfully',
                 subject
             })
         })
         .catch(err => {
-            res.status(500).json({
+            fs.unlinkSync(__dirname + file_name)
+            return res.status(500).json({
                 message: 'Error adding subject',
                 err
             })

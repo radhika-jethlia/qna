@@ -3,10 +3,10 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import cors from 'cors'
+import fileUpload from 'express-fileupload'
 import { mongoURI } from './config/mongoDB.mjs'
 import SubjectRoutes from './routes/SubjectRoutes.mjs'
-
-const PORT = process.env.PORT || 5000
+import { PORT } from './Paths.mjs'
 
 const app = express()
 app.use(express.json());
@@ -19,6 +19,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: true
 }))
+// app.use('/upload', express.static('upload'))
+app.use(fileUpload())
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(result => {
