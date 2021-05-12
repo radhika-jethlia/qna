@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import { mongoURI } from './config/mongoDB.mjs'
 import SubjectRoutes from './routes/SubjectRoutes.mjs'
+import AdminAuthRoutes from './routes/AdminAuthRoutes.mjs'
 import { PORT } from './Paths.mjs'
 
 const app = express()
@@ -29,6 +30,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     })
 
 app.use('/api/subjects', SubjectRoutes)
+app.use('/api/auth', AdminAuthRoutes)
 
 const server = http.createServer(app)
 
