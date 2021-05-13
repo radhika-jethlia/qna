@@ -7,6 +7,7 @@ import {
     GetSubjectById
 } from '../controllers/SubjectController.mjs'
 import { uniqueFileName } from '../Paths.mjs'
+import { adminLoginRequired, adminProfile } from '../middlewares/AuthenticationMiddleware.mjs'
 
 const router = Router()
 
@@ -33,7 +34,7 @@ const upload = multer({
 })
 
 router.get('/all_subjects', GetSubjects)
-router.post('/add_subject', upload.single('subject_file'), AddSubject)
+router.post('/add_subject', upload.single('subject_file'), adminLoginRequired, adminProfile, AddSubject)
 router.post('/update_subject/:subjectId', upload.single('subject_file'), UpdateSubject)
 router.get('/get_subject/:subjectId', GetSubjectById)
 

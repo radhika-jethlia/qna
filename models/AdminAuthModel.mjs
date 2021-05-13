@@ -1,12 +1,16 @@
 import mongoose from 'mongoose'
+import bcrypt from 'bcrypt'
 
-export default mongoose.model('admin_credentials', new mongoose.Schema({
+const AdminAuthSchema = new mongoose.Schema({
     name: {
         type: String,
+        trim: true,
         required: true
     },
     email: {
         type: String,
+        trim: true,
+        lowercase: true,
         required: true,
         unique: true
     },
@@ -23,4 +27,11 @@ export default mongoose.model('admin_credentials', new mongoose.Schema({
         required: true,
         default: 1
     },
-}))
+})
+
+// AdminAuthSchema.methods.comparePassword = (password) => {
+//     console.log(AdminAuthSchema.password)
+//     return bcrypt.compareSync(password, this.password, 10)
+// }
+
+export default mongoose.model('admin_credentials', AdminAuthSchema)
