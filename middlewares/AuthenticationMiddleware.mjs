@@ -2,12 +2,10 @@ import jwt from 'jsonwebtoken'
 
 export const AdminMiddleware = (req, res, next) => {
     next()
-    // let token = req.headers.authorization
-    // if (!token) return res.status(401).json({
-    //     message: "Token not provided"
-    // })
-    // jwt.verify(token, process.env.JWT_TOKEN, (err, decoded) => {
-    //     if (err) throw err
+    // let token = req.headers.authorization || false
+    // if (!token) { req.admin = undefined }
+    // jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+    //     if (err) throw req.admin = undefined
     //     req.admin = decoded
     //     next()
     // })
