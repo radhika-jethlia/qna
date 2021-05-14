@@ -6,14 +6,14 @@ import {
     UpdateSubject,
     GetSubjectById
 } from '../controllers/SubjectController.mjs'
-import { uniqueFileName } from '../Paths.mjs'
+import { uniqueFileName, SUBJECT_UPLOAD_PATH } from '../Paths.mjs'
 import { adminLoginRequired, adminProfile } from '../middlewares/AuthenticationMiddleware.mjs'
 
 const router = Router()
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/subjects')
+        cb(null, SUBJECT_UPLOAD_PATH)
     },
     filename: function (req, file, cb) {
         cb(null, new Date().getTime() + '-' + uniqueFileName + '-' + file.originalname)

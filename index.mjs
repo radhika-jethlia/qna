@@ -11,6 +11,7 @@ import dotenv from 'dotenv'
 import { auth } from 'express-openid-connect'
 import { AdminMiddleware } from './middlewares/AuthenticationMiddleware.mjs'
 import QuestionsRouter from './routes/QuestionsRoute.mjs'
+import AdRoutes from './routes/AdRoutes.mjs'
 
 
 const app = express()
@@ -49,6 +50,7 @@ app.use(AdminMiddleware)
 app.use('/api/subjects', SubjectRoutes)
 app.use('/api/auth', AdminAuthRoutes)
 app.use('/api/questions', QuestionsRouter)
+app.use('/api/ads', AdRoutes)
 
 const server = http.createServer(app)
 

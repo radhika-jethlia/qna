@@ -5,7 +5,9 @@ import {
     getAllQuestions,
     getActiveQuestions,
     getInactiveQuestions,
-    getQuestionById
+    getQuestionById,
+    getRandomQuestionsBySubject,
+    getRandomQuestions
 } from '../controllers/QuestionsController.mjs'
 import {
     adminLoginRequired,
@@ -20,5 +22,7 @@ router.get('/get_all', getAllQuestions)
 router.get('/active', getActiveQuestions)
 router.get('/inactive', getInactiveQuestions)
 router.get('/get_question_by_id/:questionId', getQuestionById)
+router.get('/get_random_questions_by_subject/:subjectId', getRandomQuestionsBySubject)
+router.get('/get_random_questions', getRandomQuestions)
 
 export default router

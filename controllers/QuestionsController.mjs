@@ -151,3 +151,43 @@ export const getQuestionById = async (req, res, next) => {
             })
     })
 }
+
+export const getRandomQuestionsBySubject = async (req, res, next) => {
+    const subjectId = req.params.subjectId
+    try {
+        const questions = await QuestionsModel.find({
+            subject: subjectId
+        }).limit(QUESTIONS_PER_GAME)
+        return res.status(200)
+            .json({
+                questions: await shuffle(questions)
+            })
+    } catch (err) {
+        return res.status(500)
+            .json({
+                message: 'An error occured while finding questions',
+                err
+            })
+    }
+}
+
+export const getRandomQuestions = async (req, res, next) => {
+    try {
+        const questions = await QuestionsModel.find().limit(QUESTIONS_PER_GAME)
+        return res.status(200)
+            .json({
+                questions: await shuffle(questions)
+            })
+    } catch (err) {
+        return res.status(500)
+            .json({
+                message: 'An error occured while finding questions',
+                err
+            })
+    }
+}
+
+const shuffle = async (v) => {
+    for (var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
+    return v;
+}

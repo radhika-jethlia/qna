@@ -7,6 +7,11 @@ const Question = new mongoose.Schema({
         trim: true,
         required: true
     },
+    subject: {
+        type: String,
+        trim: true,
+        required: true
+    },
     option_a: {
         type: String,
         trim: true,
