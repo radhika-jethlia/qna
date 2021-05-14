@@ -65,7 +65,7 @@ export const UpdateSubject = async (req, res, next) => {
                 }
             )
             req.file && fs.unlinkSync(subjectDetails.file_name)
-            res.status(201).json({
+            res.status(204).json({
                 message: 'Subject updated',
                 result
             })

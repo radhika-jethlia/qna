@@ -25,10 +25,10 @@ export const AdminLogin = async (req, res, next) => {
                 name: admin.name,
                 is_active: admin.is_active
             },
-            process.env.JWT_KEY,
-            {
-                expiresIn: "1h"
-            })
+                process.env.JWT_KEY,
+                {
+                    expiresIn: "1h"
+                })
         })
     })
 }
@@ -47,6 +47,45 @@ export const AdminSignUp = async (req, res, next) => {
                 message: "Admin added successfully",
                 user
             });
+        }
+    })
+}
+
+export const changePasswordAdmin = async (req, res, next) => {
+    await AdminAuthModel.findOne({
+        email: req.body.email
+    }, async (err, admin) => {
+        if (err) res.status(500).json({
+            message: 'Something went wrong',
+            err
+        })
+        if (!admin) return res.status(401).json({
+            message: "Invalid Email"
+        })
+        if (!bcrypt.compareSync(req.body.old_password, admin.password, 10))
+            return res
+                .status(401)
+                .json({
+                    message: "Invalid Password"
+                })
+        try {
+            const result = await AdminAuthModel.updateOne(
+                { email: req.body.email },
+                {
+                    $set: {
+                        password: bcrypt.hashSync(req.body.new_password, 10)
+                    }
+                }
+            )
+            res.status(200).json({
+                message: 'Password updated',
+                result
+            })
+        } catch (err) {
+            res.status(401).json({
+                message: "An error occured",
+                err
+            })
         }
     })
 }
