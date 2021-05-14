@@ -1,4 +1,5 @@
 import QuestionsModel from '../models/QuestionsModel.mjs'
+import { QUESTIONS_PER_GAME } from '../config/configs.mjs'
 
 export const addQuestion = async (req, res, next) => {
     await QuestionsModel.find({
@@ -87,4 +88,66 @@ export const getAllQuestions = async (req, res, next) => {
                 err
             })
     }
+}
+
+export const getActiveQuestions = async (req, res, next) => {
+    try {
+        const questions = await QuestionsModel.find({
+            is_active: "Active"
+        })
+        return res.status(200)
+            .json({
+                questions
+            })
+    } catch (err) {
+        return res.status(500)
+            .json({
+                message: 'Something went wrong',
+                err
+            })
+    }
+}
+
+export const getInactiveQuestions = async (req, res, next) => {
+    try {
+        const questions = await QuestionsModel.find({
+            is_active: "Inactive"
+        })
+        return res.status(200)
+            .json({
+                questions
+            })
+    } catch (err) {
+        return res.status(500)
+            .json({
+                message: 'Something went wrong',
+                err
+            })
+    }
+}
+
+export const getQuestionById = async (req, res, next) => {
+    if (!req.params.questionId) return res.status(400).json({
+        message: "Question id not provided"
+    })
+    const questionId = req.params.questionId
+    await QuestionsModel.findById({
+        _id: questionId
+    }, async (err, question) => {
+        if (err)
+            return res.status(500)
+                .json({
+                    message: 'An error occured while finding this question',
+                    err
+                })
+        if (!question)
+            return res.status(404)
+                .json({
+                    message: 'Question not found'
+                })
+        return res.status(200)
+            .json({
+                question
+            })
+    })
 }
