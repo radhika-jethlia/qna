@@ -14,11 +14,10 @@ import { AdminMiddleware } from './middlewares/AuthenticationMiddleware.mjs'
 
 const app = express()
 dotenv.config()
-app.use(express.json());
+app.use(express.json())
 app.use(express.urlencoded({
     extended: true
-}));
-app.use(AdminMiddleware)
+}))
 // app.use(
 //     auth({
 //         issuerBaseURL: process.env.ISSUER_BASE_URL,
@@ -43,6 +42,8 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .catch(err => {
         console.error('Connection to database failed')
     })
+
+app.use(AdminMiddleware)
 
 app.use('/api/subjects', SubjectRoutes)
 app.use('/api/auth', AdminAuthRoutes)

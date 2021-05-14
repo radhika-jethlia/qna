@@ -1,29 +1,36 @@
 import jwt from 'jsonwebtoken'
 
-export const AdminMiddleware = (req, res, next) => {
-    next()
-    // let token = req.headers.authorization || false
-    // if (!token) { req.admin = undefined }
-    // jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
-    //     if (err) throw req.admin = undefined
-    //     req.admin = decoded
-    //     next()
-    // })
+export const AdminMiddleware = async (req, res, next) => {
+    let token = await req.headers.authorization
+    if (!token) {
+        req.admin = undefined
+        next()
+    } else {
+        jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+            if (err) {
+                req.admin = undefined
+                next()
+            } else {
+                req.admin = decoded
+                next()
+            }
+        })
+    }
 }
 
 export const adminLoginRequired = async (req, res, next) => {
     if (req.admin) {
         next()
     } else {
-        return res.status(401).json({ message: 'Unauthorized user!!' })
+        res.status(401).json({ message: 'Unauthorized user!!' })
     }
 }
 
 export const adminProfile = async (req, res, next) => {
     if (req.admin) {
-        res.send(req.admin)
+        // res.send(req.admin)
         next()
     } else {
-        return res.status(401).json({ message: 'Unauthorized user!!' })
+        res.status(401).json({ message: 'Unauthorized user!!' })
     }
 }
