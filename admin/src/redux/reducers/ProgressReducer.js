@@ -1,26 +1,24 @@
 import {
-    AUTH,
-    LOGOUT
+    PROGRESS_OPEN,
+    PROGRESS_CLOSE
 } from '../ReduxConstants'
 
 const initialState = {
-    isAuthorized: false
+    isOpen: false
 }
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case AUTH:
+        case PROGRESS_OPEN:
             return {
-                ...state,
-                isAuthorized: true
+                isOpen: true
             }
 
-        case LOGOUT:
-            localStorage.removeItem('jsonwebtoken')
+        case PROGRESS_CLOSE:
             return {
-                ...state,
-                isAuthorized: false
+                isOpen: false
             }
+
         default:
             return {
                 ...state

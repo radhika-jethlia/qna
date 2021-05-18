@@ -8,10 +8,14 @@ import {
 import ScrollRestoration from 'react-scroll-restoration'
 import { connect } from 'react-redux'
 import Login from '../pages/authentication/Login'
+import ProgressBar from '../pages/components/LoadingComponent.jsx'
+import SnackBar from '../pages/components/SnackBars.jsx'
 
 let MainRouter = (props) => {
     return (<>
         <Router>
+            <ProgressBar />
+            <SnackBar />
             <ScrollRestoration />
             <Route exact path={'/'}
                 render={(routeProps) => {

@@ -1,24 +1,35 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import TextField from '@material-ui/core/TextField'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import Link from '@material-ui/core/Link'
-import Grid from '@material-ui/core/Grid'
-import Box from '@material-ui/core/Box'
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
-import Typography from '@material-ui/core/Typography'
+import {
+    Avatar,
+    Button,
+    CssBaseline,
+    TextField,
+    FormControlLabel,
+    Checkbox,
+    Link,
+    Grid,
+    Box,
+    Typography,
+    Container,
+    LinearProgress
+} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import Container from '@material-ui/core/Container'
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import { BASE_URI } from '../../utils/API'
 import { PROJECT_NAME } from '../../utils/Config'
 import {
     action_check_login,
     action_login
 } from '../../redux/actions/LoginAction'
+import {
+    show_progress,
+    hide_progress
+} from '../../redux/actions/ProgressAction'
+import {
+    show_success,
+    show_error
+} from '../../redux/actions/SnackbarActions'
 
 const Copyright = () => {
     return (
@@ -75,18 +86,33 @@ const Login = (props) => {
         return true
     }
     const signin = async () => {
+        props.show_progress()
         if (formValidator()) {
-            console.log('here')
+            setErrors([])
             try {
                 const result = await props.action_login({
                     email: email,
                     password: password
                 })
                 console.log(result)
+                if (result.status === 200) {
+                    props.show_success({
+                        message: 'Authentication success, logging in...'
+                    })
+                    localStorage.setItem('jsonwebtoken', result.data.token)
+                    props.history.push('/dashboard')
+                } else {
+                    props.show_error({
+                        message: result.data.message
+                    })
+                }
             } catch (err) {
-                console.log(err)
+                props.show_error({
+                    message: err.response.data.message
+                })
             }
         }
+        props.hide_progress()
     }
     return (
         <Container component="main" maxWidth="xs">
@@ -162,7 +188,11 @@ const MapStateToProps = (state) => {
 const MapDispatchToProps = (dispatch) => {
     return {
         action_check_login: payload => dispatch(action_check_login(payload)),
-        action_login: (payload) => dispatch(action_login(payload))
+        action_login: (payload) => dispatch(action_login(payload)),
+        show_progress: () => dispatch(show_progress()),
+        hide_progress: () => dispatch(hide_progress()),
+        show_success: (payload) => dispatch(show_success(payload)),
+        show_error: (payload) => dispatch(show_error(payload))
     }
 }
 export default connect(MapStateToProps, MapDispatchToProps)(Login)
