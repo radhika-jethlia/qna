@@ -2,7 +2,11 @@ import {
     SUCCESS,
     WARNING,
     INFO,
-    ERROR
+    ERROR,
+    HIDE_SUCCESS,
+    HIDE_WARNING,
+    HIDE_INFO,
+    HIDE_ERROR
 } from '../ReduxConstants'
 
 const initialState = {
@@ -59,6 +63,41 @@ export default (state = initialState, action) => {
                 error: {
                     isOpen: true,
                     message: action.payload.message
+                }
+            }
+        case HIDE_SUCCESS:
+            return {
+                ...initialState,
+                success: {
+                    isOpen: false,
+                    message: ''
+                }
+            }
+
+        case HIDE_WARNING:
+            return {
+                ...initialState,
+                warning: {
+                    isOpen: false,
+                    message: ''
+                }
+            }
+
+        case HIDE_INFO:
+            return {
+                ...initialState,
+                info: {
+                    isOpen: false,
+                    message: ''
+                }
+            }
+
+        case HIDE_ERROR:
+            return {
+                ...initialState,
+                error: {
+                    isOpen: false,
+                    message: ''
                 }
             }
 

@@ -30,6 +30,7 @@ import {
     show_success,
     show_error
 } from '../../redux/actions/SnackbarActions'
+import { withRouter } from 'react-router'
 
 const Copyright = () => {
     return (
@@ -64,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const Login = (props) => {
+let Login = (props) => {
     const classes = useStyles()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -89,13 +90,14 @@ const Login = (props) => {
         props.show_progress()
         if (formValidator()) {
             setErrors([])
+            const tempPassword = password
+            setPassword('')
             try {
                 const result = await props.action_login({
                     email: email,
-                    password: password
+                    password: tempPassword
                 })
-                console.log(result)
-                if (result.status === 200) {
+                if (result.data.status === 200) {
                     props.show_success({
                         message: 'Authentication success, logging in...'
                     })
@@ -136,6 +138,7 @@ const Login = (props) => {
                     onChange={
                         e => setEmail(e.target.value)
                     }
+                    value={email}
                 />
                 <span style={{ color: "red" }}>{errors.email}</span>
                 <TextField
@@ -151,6 +154,7 @@ const Login = (props) => {
                     onChange={
                         e => setPassword(e.target.value)
                     }
+                    value={password}
                 />
                 <span style={{ color: "red" }}>{errors.password}</span>
                 <FormControlLabel
@@ -195,4 +199,4 @@ const MapDispatchToProps = (dispatch) => {
         show_error: (payload) => dispatch(show_error(payload))
     }
 }
-export default connect(MapStateToProps, MapDispatchToProps)(Login)
+export default connect(MapStateToProps, MapDispatchToProps)(withRouter(Login))

@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ProgressBar = (props) => {
-    const classes = useStyles();
+    const classes = useStyles()
     return (
         <Backdrop className={classes.backdrop} open={props.progress.isOpen}>
             <CircularProgress />
