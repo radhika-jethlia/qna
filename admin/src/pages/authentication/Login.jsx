@@ -97,7 +97,7 @@ let Login = (props) => {
                     email: email,
                     password: tempPassword
                 })
-                if (result.data.status === 200) {
+                if (result.status === 200) {
                     props.show_success({
                         message: 'Authentication success, logging in...'
                     })

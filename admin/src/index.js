@@ -9,6 +9,10 @@ import {
   action_check_login,
   action_logout
 } from './redux/actions/LoginAction'
+import {
+  show_error
+} from './redux/actions/SnackbarActions'
+import './pages/styles/_global.scss'
 
 const store = Store()
 const token = localStorage.getItem('jsonwebtoken')
@@ -16,15 +20,16 @@ if (token) {
   store.dispatch(action_check_login(token))
 } else {
   localStorage.removeItem('jsonwebtoken')
+  store.dispatch(show_error('Session expired! Please login again to continue.'))
   store.dispatch(action_logout())
 }
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
+  <Provider store={store}>
+    <React.StrictMode>
       <App />
-    </Provider>
-  </React.StrictMode>,
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 

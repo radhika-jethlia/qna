@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@pages/*": ["pages/*"],
+      "@redux/*": ["redux/*"],
+      "@routers/*": ["routers/*"],
+      "@utils/*": ["utils/*"]
+    }
+  }
+}
