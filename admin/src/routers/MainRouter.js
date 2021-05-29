@@ -3,7 +3,8 @@ import {
     Redirect,
     Route,
     Switch,
-    useLocation
+    useLocation,
+    BrowserRouter
 } from "react-router-dom"
 import ScrollRestoration from 'react-scroll-restoration'
 import { connect } from 'react-redux'
@@ -66,53 +67,59 @@ const PrivateRoute = ({ component: Component, authorized, ...rest }) => {
 
 let MainRouter = (props) => {
     return (<>
-        <Router>
-            <ProgressBar />
-            <SnackBar />
-            <ScrollRestoration />
-            <Switch>
-                <Route exact path={'/'}
-                    render={(routeProps) => {
-                        return (
-                            <>
-                                {props.authentication.isAuthorized ? (
-                                    <Redirect
-                                        to={{
-                                            pathname: "/dashboard",
-                                            state: {
-                                                from: props.location,
-                                            },
-                                        }}
-                                    />
-                                ) : (
-                                    <Redirect
-                                        to={{
-                                            pathname: "/login",
-                                            state: {
-                                                from: props.location,
-                                            },
-                                        }}
-                                    />
-                                )}
-                            </>
-                        );
-                    }}
-                />
-                <Route exact
-                    path={'/login'}
-                    render={(routeProps) => {
-                        return (
-                            props.authentication.isAuthorized ? <Redirect to={{
-                                pathname: "/dashboard",
-                                state: {
-                                    from: props.location,
-                                },
-                            }} /> : <React.Suspense fallback={<FallBackLoader />}><Login /></React.Suspense>
-                        )
-                    }} />
-                <PrivateRoute exact path={'/dashboard'} authorized={props.authentication.isAuthorized} component={Dashboard} />
-            </Switch>
-        </Router>
+        <BrowserRouter>
+            <Router>
+                <ProgressBar />
+                <SnackBar />
+                <ScrollRestoration />
+                <Switch>
+                    <Route exact path={'/'}
+                        render={(routeProps) => {
+                            return (
+                                <>
+                                    {props.authentication.isAuthorized ? (
+                                        <Redirect
+                                            to={{
+                                                pathname: "/dashboard",
+                                                state: {
+                                                    from: props.location,
+                                                },
+                                            }}
+                                        />
+                                    ) : (
+                                        <Redirect
+                                            to={{
+                                                pathname: "/login",
+                                                state: {
+                                                    from: props.location,
+                                                },
+                                            }}
+                                        />
+                                    )}
+                                </>
+                            );
+                        }}
+                    />
+                    <Route exact
+                        path={'/login'}
+                        render={(routeProps) => {
+                            return (
+                                props.authentication.isAuthorized ? <Redirect to={{
+                                    pathname: "/dashboard",
+                                    state: {
+                                        from: props.location,
+                                    },
+                                }} /> : <React.Suspense fallback={<FallBackLoader />}><Login /></React.Suspense>
+                            )
+                        }} />
+                    <PrivateRoute exact path={'/dashboard'} authorized={props.authentication.isAuthorized} component={Dashboard} />
+                    <PrivateRoute exact path={'/some'} authorized={props.authentication.isAuthorized} component={Dashboard} />
+
+                    {/* 404 page */}
+                    <Route exact path="" render={() => <center><h3>404! Nothing to do here</h3></center>} />
+                </Switch>
+            </Router>
+        </BrowserRouter>
     </>
     )
 }

@@ -17,10 +17,13 @@ import './pages/styles/_global.scss'
 const store = Store()
 const token = localStorage.getItem('jsonwebtoken')
 if (token) {
-  store.dispatch(action_check_login(token))
+  const isLoggedIn = store.dispatch(action_check_login(token))
+  if (!isLoggedIn) {
+    store.dispatch(show_error({
+      message: 'Session expired! Please login again to continue.'
+    }))
+  }
 } else {
-  localStorage.removeItem('jsonwebtoken')
-  store.dispatch(show_error('Session expired! Please login again to continue.'))
   store.dispatch(action_logout())
 }
 

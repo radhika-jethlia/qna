@@ -9,8 +9,8 @@ const Layout = ({ Content }) => {
             <div className="main-wrapper">
                 <NavigationBar />
                 <Sidebar />
-                <div class="page-wrapper">
-                    <div class="content container-fluid">
+                <div className="page-wrapper">
+                    <div className="content container-fluid">
                         {Content}
                     </div>
                 </div>

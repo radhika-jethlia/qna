@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Sidebar = (props) => {
     return (
@@ -6,20 +7,22 @@ const Sidebar = (props) => {
             <div className="sidebar" id="sidebar">
                 <div className="sidebar-logo">
                     <a href="index.html">
-                        {/* <img src="assets/img/logo-icon.png" className="img-fluid" alt=""> */}
+                        <img src="assets/img/logo-icon.png" className="img-fluid" alt="" />
                     </a>
                 </div>
-                <div className="sidebar-inner" style={{ overflow: 'scroll' }}>
+                <div className="sidebar-inner slimscroll">
                     <div id="sidebar-menu" className="sidebar-menu">
                         <ul>
                             <li className="active">
-                                <a href="index.html"><i className="fas fa-columns"></i> <span>Dashboard</span></a>
+                                <Link replace to={'/dashboard'} className={'no-underline'}><i className="fas fa-columns"></i> <span> Dashboard </span></Link>
                             </li>
                             <li>
-                                <a href="categories.html"><i className="fas fa-layer-group"></i> <span>Categories</span></a>
+                                <Link to={'/asd'}><i className="fas fa-columns"></i> <span>Subjects</span></Link>
                             </li>
                             <li>
-                                <a href="subcategories.html"><i className="fab fa-buffer"></i> <span>Sub Categories</span></a>
+                                <a onClick={
+                                    e => props.history.push('/some')
+                                }><i className="fab fa-buffer"></i> <span>Sub Categories</span></a>
                             </li>
                             <li>
                                 <a href="service-list.html"><i className="fas fa-bullhorn"></i> <span> Services</span></a>

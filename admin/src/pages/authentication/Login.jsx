@@ -101,8 +101,9 @@ let Login = (props) => {
                     props.show_success({
                         message: 'Authentication success, logging in...'
                     })
-                    localStorage.setItem('jsonwebtoken', result.data.token)
-                    props.history.push('/dashboard')
+                    if (localStorage.setItem('jsonwebtoken', result.data.token)) {
+                        props.history.push('/dashboard')
+                    }
                 } else {
                     props.show_error({
                         message: result.data.message
@@ -172,8 +173,10 @@ let Login = (props) => {
                     Sign In</Button>
                 <Grid container>
                     <Grid item xs>
-                        <Link href="#" variant="body2">
-                            Forgot password?</Link>
+                        <a onClick={
+                            e => props.history.push('/reset')
+                        } variant="body2">
+                            Forgot password?</a>
                     </Grid>
                 </Grid>
             </div>
