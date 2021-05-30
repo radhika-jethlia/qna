@@ -10,6 +10,7 @@ export const API_ROOT = BASE_URI + '/api/'
  * AUTHENTICATION
  */
  export const PROCESS_LOGIN = API_ROOT + 'auth/login'
+ export const PASSWORD_UPDATE = API_ROOT + 'auth/update/password'
 
 /**
  * SUBJECTS APIS

@@ -35,7 +35,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: true
 }))
-app.use('/uploads', express.static('upload'))
+app.use('/uploads', express.static('uploads'))
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(result => {

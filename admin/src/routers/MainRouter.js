@@ -10,9 +10,12 @@ import ScrollRestoration from 'react-scroll-restoration'
 import { connect } from 'react-redux'
 import ProgressBar from '../pages/components/LoadingComponent.jsx'
 import SnackBar from '../pages/components/SnackBars.jsx'
+import ModalComponent from '../pages/components/ModalComponent.jsx'
 import React from "react"
 import { Backdrop, CircularProgress } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { action_logout } from '../redux/actions/LoginAction'
+import Layout from '../pages/layouts/Layout.jsx'
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
@@ -31,11 +34,14 @@ const Login = React.lazy(() => {
 })
 
 const Dashboard = React.lazy(() => {
-    // import('../pages/Dashboard')
-    return new Promise(resolve => {
-        setTimeout(() => resolve(import("../pages/Dashboard")), 1 * 1000)
-    });
+    return import('../pages/Dashboard.jsx')
+    // return new Promise(resolve => {
+    //     setTimeout(() => resolve(import("../pages/Dashboard")), 1 * 1000)
+    // });
 })
+
+const Password = React.lazy(() => import('../pages/profile/Password'))
+const Subjects = React.lazy(() => import('../pages/subject/Subjects'))
 
 const FallBackLoader = () => {
     const classes = useStyles()
@@ -55,7 +61,7 @@ const PrivateRoute = ({ component: Component, authorized, ...rest }) => {
                     authorized
                         ?
                         <React.Suspense fallback={<FallBackLoader />}>
-                            <Component {...routeProps} />
+                            <Layout Content={<Component {...routeProps} />} />
                         </React.Suspense>
                         :
                         <Redirect to={{ pathname: '/login', state: { from: routeProps.location } }} />
@@ -72,6 +78,7 @@ let MainRouter = (props) => {
                 <ProgressBar />
                 <SnackBar />
                 <ScrollRestoration />
+                <ModalComponent />
                 <Switch>
                     <Route exact path={'/'}
                         render={(routeProps) => {
@@ -113,7 +120,23 @@ let MainRouter = (props) => {
                             )
                         }} />
                     <PrivateRoute exact path={'/dashboard'} authorized={props.authentication.isAuthorized} component={Dashboard} />
-                    <PrivateRoute exact path={'/some'} authorized={props.authentication.isAuthorized} component={Dashboard} />
+                    <PrivateRoute exact path={'/password'} authorized={props.authentication.isAuthorized} component={Password} />
+                    <PrivateRoute exact path={'/subjects'} authorized={props.authentication.isAuthorized} component={Subjects} />
+
+                    {/* logout */}
+                    <Route exact path={'/logout'} render={() => {
+                        props.authentication.isAuthorized && props.logout()
+                        return (
+                            <Redirect
+                                to={{
+                                    pathname: "/",
+                                    state: {
+                                        from: props.location,
+                                    },
+                                }}
+                            />
+                        )
+                    }} />
 
                     {/* 404 page */}
                     <Route exact path="" render={() => <center><h3>404! Nothing to do here</h3></center>} />
@@ -129,4 +152,10 @@ const MapStateToProps = (state) => {
     }
 }
 
-export default connect(MapStateToProps)(MainRouter)
+const MapDispatchToProps = (dispatch) => {
+    return {
+        logout: () => dispatch(action_logout())
+    }
+}
+
+export default connect(MapStateToProps, MapDispatchToProps)(MainRouter)

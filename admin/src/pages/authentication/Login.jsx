@@ -101,9 +101,9 @@ let Login = (props) => {
                     props.show_success({
                         message: 'Authentication success, logging in...'
                     })
-                    if (localStorage.setItem('jsonwebtoken', result.data.token)) {
-                        props.history.push('/dashboard')
-                    }
+                    localStorage.setItem('jsonwebtoken', result.data.token)
+                    props.action_check_login(result.data.token)
+                    props.history.push('/dashboard')
                 } else {
                     props.show_error({
                         message: result.data.message
@@ -194,7 +194,7 @@ const MapStateToProps = (state) => {
 }
 const MapDispatchToProps = (dispatch) => {
     return {
-        action_check_login: payload => dispatch(action_check_login(payload)),
+        action_check_login: (payload) => dispatch(action_check_login(payload)),
         action_login: (payload) => dispatch(action_login(payload)),
         show_progress: () => dispatch(show_progress()),
         hide_progress: () => dispatch(hide_progress()),

@@ -1,7 +1,12 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link, withRouter } from 'react-router-dom'
 
 const Sidebar = (props) => {
+    const [path, setPath] = useState('')
+    useEffect(() => {
+        setPath(window.location.href.replace('//', "").split('/')[2])
+    }, [path])
+
     return (
         <>
             <div className="sidebar" id="sidebar">
@@ -13,46 +18,17 @@ const Sidebar = (props) => {
                 <div className="sidebar-inner slimscroll">
                     <div id="sidebar-menu" className="sidebar-menu">
                         <ul>
-                            <li className="active">
+                            <li className={path == 'dashboard' ? 'active' : null}>
                                 <Link replace to={'/dashboard'} className={'no-underline'}><i className="fas fa-columns"></i> <span> Dashboard </span></Link>
                             </li>
                             <li>
-                                <Link to={'/asd'}><i className="fas fa-columns"></i> <span>Subjects</span></Link>
+                                <Link to={'/subjects'} className={'no-underline'}><i className="fab fa-buffer"></i> <span>Subjects</span></Link>
                             </li>
-                            <li>
-                                <a onClick={
-                                    e => props.history.push('/some')
-                                }><i className="fab fa-buffer"></i> <span>Sub Categories</span></a>
+                            <li className={path == 'password' ? 'active' : null}>
+                                <Link to={'/password'} className={'no-underline'}><i className="fas fa-user-shield"></i> <span>Profile</span></Link>
                             </li>
-                            <li>
-                                <a href="service-list.html"><i className="fas fa-bullhorn"></i> <span> Services</span></a>
-                            </li>
-                            <li>
-                                <a href="total-report.html"><i className="far fa-calendar-check"></i> <span> Booking List</span></a>
-                            </li>
-                            <li>
-                                <a href="payment_list.html"><i className="fas fa-hashtag"></i> <span>Payments</span></a>
-                            </li>
-                            <li>
-                                <a href="ratingstype.html"><i className="fas fa-star-half-alt"></i> <span>Rating Type</span></a>
-                            </li>
-                            <li>
-                                <a href="review-reports.html"><i className="fas fa-star"></i> <span>Ratings</span></a>
-                            </li>
-                            <li>
-                                <a href="subscriptions.html"><i className="far fa-calendar-alt"></i> <span>Subscriptions</span></a>
-                            </li>
-                            <li>
-                                <a href="wallet.html"><i className="fas fa-wallet"></i> <span> Wallet</span></a>
-                            </li>
-                            <li>
-                                <a href="service-providers.html"><i className="fas fa-user-tie"></i> <span> Service Providers</span></a>
-                            </li>
-                            <li>
-                                <a href="users.html"><i className="fas fa-user"></i> <span>Users</span></a>
-                            </li>
-                            <li>
-                                <a href="settings.html"><i className="fas fa-cog"></i> <span> Settings</span></a>
+                            <li className={path == 'logout' ? 'active' : null}>
+                                <Link to={'/logout'} className={'no-underline'}><i className="fas fa-user-shield"></i> <span>Logout</span></Link>
                             </li>
                         </ul>
                     </div>
@@ -62,4 +38,4 @@ const Sidebar = (props) => {
     )
 }
 
-export default Sidebar
+export default withRouter(Sidebar)

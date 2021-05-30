@@ -23,6 +23,7 @@ export const AdminLogin = async (req, res, next) => {
             token: jwt.sign({
                 email: admin.email,
                 name: admin.name,
+                joined: admin.added_on,
                 is_active: admin.is_active
             },
                 process.env.JWT_KEY,

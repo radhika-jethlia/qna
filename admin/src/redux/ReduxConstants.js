@@ -21,3 +21,14 @@ export const HIDE_SUCCESS = "HIDE_SUCCESS"
 export const HIDE_WARNING = "HIDE_WARNING"
 export const HIDE_INFO = "HIDE_INFO"
 export const HIDE_ERROR = "HIDE_ERROR"
+
+/**
+ * PROFILE
+ */
+export const PASSWORD_CHANGE = "PASSWORD_CHANGE"
+
+/**
+ * MODAL
+ */
+export const SHOW_MODAL = "SHOW_MODAL"
+export const HIDE_MODAL = "HIDE_MODAL"

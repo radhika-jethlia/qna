@@ -1,10 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Layout from './layouts/Layout.jsx'
-import { Container } from 'react-bootstrap'
 
 const Dashboard = (props) => {
-    const pageContent = (
+    return (
         <>
             <div className="page-header">
                 <div className="row">
@@ -75,11 +73,6 @@ const Dashboard = (props) => {
                     </div>
                 </div>
             </div>
-        </>
-    )
-    return (
-        <>
-            <Layout Content={pageContent} />
         </>
     )
 }
