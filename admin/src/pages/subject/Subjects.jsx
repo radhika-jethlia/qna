@@ -7,7 +7,8 @@ import { show_error, show_success } from '../../redux/actions/SnackbarActions.js
 import { hide_progress, show_progress } from '../../redux/actions/ProgressAction.js'
 import { get_all_subjects } from '../../redux/actions/SubjectActions.js'
 import { BASE_URI } from '../../utils/API.js'
-import { show_modal } from '../../redux/actions/ModalActions.js'
+import { hide_modal, show_modal } from '../../redux/actions/ModalActions.js'
+import _ from 'lodash'
 
 const Subjects = (props) => {
 
@@ -18,6 +19,7 @@ const Subjects = (props) => {
 	} = useForm()
 
 	const [subjects, setSubjects] = useState([])
+	const [state, setState] = useState(0)
 
 	useEffect(() => {
 		getSubjects()
@@ -38,6 +40,22 @@ const Subjects = (props) => {
 
 	const saveNewSubject = (data) => {
 		alert("reached here")
+		props.hide_modal()
+	}
+
+	useEffect(() => {
+
+	}, [props.modal.errors])
+
+	const addSubjectModalShow = () => {
+		// alert()
+		setState(state + 1)
+		props.show_modal({
+			title: state,
+			formBody: SubjectJsx,
+			errors: errors,
+			submitButton: addSubjectModalShow
+		})
 	}
 
 	const SubjectJsx = (
@@ -67,11 +85,7 @@ const Subjects = (props) => {
 			<TemplateHeader header="Subjects" />
 			<div className="col-auto text-right mb-3">
 				<a onClick={
-					e => props.show_modal({
-						title: 'Add new subject',
-						formBody: SubjectJsx,
-						errors: errors
-					})
+					e => addSubjectModalShow()
 				} className="btn btn-primary add-button ml-3">
 					<i className="fas fa-plus"></i>
 				</a>
@@ -118,6 +132,12 @@ const Subjects = (props) => {
 	)
 }
 
+const MapStateToProps = (state) => {
+	return {
+		modal: state.modal
+	}
+}
+
 const MapDispatchToProps = (dispatch) => {
 	return {
 		show_error: (payload) => dispatch(show_error(payload)),
@@ -125,8 +145,9 @@ const MapDispatchToProps = (dispatch) => {
 		show_progress: () => dispatch(show_progress()),
 		hide_progress: () => dispatch(hide_progress()),
 		get_all_subjects: () => dispatch(get_all_subjects()),
-		show_modal: (payload) => dispatch(show_modal(payload))
+		show_modal: (payload) => dispatch(show_modal(payload)),
+		hide_modal: () => dispatch(hide_modal())
 	}
 }
 
-export default connect(null, MapDispatchToProps)(Subjects)
+export default connect(MapStateToProps, MapDispatchToProps)(Subjects)

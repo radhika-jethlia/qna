@@ -1,9 +1,7 @@
 import React from 'react'
-import { hide_modal } from '../../redux/actions/ModalActions'
+import { hide_modal, show_modal } from '../../redux/actions/ModalActions'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { useForm } from 'react-hook-form'
-import FormError from '../components/template/FormError.jsx'
 import {
     Button,
     Slide,
@@ -34,13 +32,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const ModalDialog = (props) => {
+// useEffect(() => {
+//     effect
+// }, [input])
 
-    const {
-		register,
-		handleSubmit,
-		formState: { errors }
-	} = useForm()
+const ModalDialog = (props) => {
 
     const classes = useStyles()
 
@@ -55,7 +51,9 @@ const ModalDialog = (props) => {
                         <Typography variant="h6" className={classes.title}>
                             {props.modal.title}
                         </Typography>
-                        <Button form='modalForm' type="submit" autoFocus color="inherit">
+                        <Button onClick={
+                            e => props.modal.submitButton()
+                        } form='modalForm' type="submit" autoFocus color="inherit">
                             Save
                     </Button>
                     </Toolbar>
@@ -80,7 +78,8 @@ const MapStateToProps = (state) => {
 
 const MapDispatchToProps = (dispatch) => {
     return {
-        hide_modal: () => dispatch(hide_modal())
+        hide_modal: () => dispatch(hide_modal()),
+        show_modal: (payload) => dispatch(show_modal(payload))
     }
 }
 export default connect(MapStateToProps, MapDispatchToProps)(ModalDialog)

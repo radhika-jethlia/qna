@@ -32,3 +32,8 @@ export const PASSWORD_CHANGE = "PASSWORD_CHANGE"
  */
 export const SHOW_MODAL = "SHOW_MODAL"
 export const HIDE_MODAL = "HIDE_MODAL"
+
+/**
+ * QUESTIONS
+ */
+// export const GET_ALL_QUESTIONS = "GET_ALL_QUESTIONS"

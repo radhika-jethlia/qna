@@ -1,5 +1,6 @@
 import QuestionsModel from '../models/QuestionsModel.mjs'
 import { QUESTIONS_PER_GAME } from '../config/configs.mjs'
+import SubjectsSchema from '../models/SubjectsModel.mjs'
 
 export const addQuestion = async (req, res, next) => {
     await QuestionsModel.find({
@@ -77,9 +78,11 @@ export const updateQuestion = async (req, res, body) => {
 export const getAllQuestions = async (req, res, next) => {
     try {
         const questions = await QuestionsModel.find()
+        console.log(questions.subject)
         return res.status(200)
             .json({
-                questions
+                questions,
+                // subject: await SubjectsSchema.findById(questions.subject)
             })
     } catch (err) {
         return res.status(500)
@@ -150,6 +153,25 @@ export const getQuestionById = async (req, res, next) => {
                 question
             })
     })
+}
+
+export const getQuestionsBySubject = async (req, res, next) => {
+    const subjectId = req.params.subjectId
+    try {
+        const questions = await QuestionsModel.find({
+            subject: subjectId
+        })
+        return res.status(200)
+            .json({
+                questions: questions
+            })
+    } catch (err) {
+        return res.status(500)
+            .json({
+                message: 'An error occured while finding questions',
+                err
+            })
+    }
 }
 
 export const getRandomQuestionsBySubject = async (req, res, next) => {

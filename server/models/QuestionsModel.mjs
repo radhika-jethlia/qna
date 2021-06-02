@@ -8,7 +8,7 @@ const Question = new mongoose.Schema({
         required: true
     },
     subject: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         trim: true,
         required: true
     },

@@ -24,6 +24,9 @@ const Sidebar = (props) => {
                             <li>
                                 <Link to={'/subjects'} className={'no-underline'}><i className="fab fa-buffer"></i> <span>Subjects</span></Link>
                             </li>
+                            <li className={path == 'questions' ? 'active' : null}>
+                                <Link to={'/questions'} className={'no-underline'}><i className="fas fa-question-circle"></i> <span>Questions</span></Link>
+                            </li>
                             <li className={path == 'password' ? 'active' : null}>
                                 <Link to={'/password'} className={'no-underline'}><i className="fas fa-user-shield"></i> <span>Profile</span></Link>
                             </li>

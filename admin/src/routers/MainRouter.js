@@ -42,6 +42,7 @@ const Dashboard = React.lazy(() => {
 
 const Password = React.lazy(() => import('../pages/profile/Password'))
 const Subjects = React.lazy(() => import('../pages/subject/Subjects'))
+const Questions = React.lazy(() => import('../pages/questions/Questions'))
 
 const FallBackLoader = () => {
     const classes = useStyles()
@@ -122,6 +123,7 @@ let MainRouter = (props) => {
                     <PrivateRoute exact path={'/dashboard'} authorized={props.authentication.isAuthorized} component={Dashboard} />
                     <PrivateRoute exact path={'/password'} authorized={props.authentication.isAuthorized} component={Password} />
                     <PrivateRoute exact path={'/subjects'} authorized={props.authentication.isAuthorized} component={Subjects} />
+                    <PrivateRoute exact path={'/questions'} authorized={props.authentication.isAuthorized} component={Questions} />
 
                     {/* logout */}
                     <Route exact path={'/logout'} render={() => {

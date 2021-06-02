@@ -9,8 +9,8 @@ export const API_ROOT = BASE_URI + '/api/'
 /**
  * AUTHENTICATION
  */
- export const PROCESS_LOGIN = API_ROOT + 'auth/login'
- export const PASSWORD_UPDATE = API_ROOT + 'auth/update/password'
+export const PROCESS_LOGIN = API_ROOT + 'auth/login'
+export const PASSWORD_UPDATE = API_ROOT + 'auth/update/password'
 
 /**
  * SUBJECTS APIS
@@ -28,5 +28,7 @@ export const GET_ALL_SLIDERS = API_ROOT + 'ads/get_ads'
 /**
  * QUESTION APIS
  */
+export const GET_ALL_QUESTIONS = API_ROOT + 'questions/get_all'
 export const GET_RANDOM_QUESTIONS = API_ROOT + 'questions/get_random_questions'
+export const GET_QUESTIONS_BY_SUBJECT = API_ROOT + 'questions/get_questions_by_subject/'
 export const GET_RANDOM_QUESTIONS_BY_SUBJECT = API_ROOT + 'questions/get_random_questions_by_subject/:subjectId'
