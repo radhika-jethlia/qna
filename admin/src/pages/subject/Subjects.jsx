@@ -82,14 +82,15 @@ const Subjects = (props) => {
 
 	return (
 		<>
-			<TemplateHeader header="Subjects" />
-			<div className="col-auto text-right mb-3">
-				<a onClick={
-					e => addSubjectModalShow()
-				} className="btn btn-primary add-button ml-3">
-					<i className="fas fa-plus"></i>
-				</a>
-			</div>
+			<TemplateHeader header="Subjects" more={
+				<div className="col-auto text-right mb-3">
+					<a onClick={
+						e => addSubjectModalShow()
+					} className="btn btn-primary add-button ml-3">
+						<i className="fas fa-plus"></i>
+					</a>
+				</div>
+			} />
 
 			<div className="row">
 				<div className="col-md-12">
@@ -109,7 +110,7 @@ const Subjects = (props) => {
 										{
 											subjects.map((object, index) => {
 												return (
-													<tr>
+													<tr key={index + 1}>
 														<td>{index + 1}</td>
 														<td>
 															<img className="rounded service-img mr-1" src={BASE_URI + '/' + object.file_name} alt="Category Image" />&emsp;{object.subject}</td>

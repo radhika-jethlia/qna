@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import TemplateHeader from '../components/template/TemplateHeader.jsx'
+import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import { hide_modal, show_modal } from '../../redux/actions/ModalActions.js'
 import {
     get_all_subjects
@@ -10,13 +11,15 @@ import { hide_progress, show_progress } from '../../redux/actions/ProgressAction
 import _ from 'lodash'
 import {
     get_all_questions,
-    get_questions_by_subject
+    get_questions_by_subject,
+    get_active_questions,
+    get_inactive_questions,
+    update_question
 } from '../../redux/actions/QuestionActions.js'
 
 const Questions = (props) => {
     const [questions, setQuestions] = useState([])
     const [subjects, setSubjects] = useState([])
-    const [selectedSubject, setSelectedSubject] = useState('')
 
     useEffect(() => {
         getQuestions()
@@ -49,11 +52,11 @@ const Questions = (props) => {
         props.hide_progress()
     }
 
-    const getBySubjects = async () => {
+    const getBySubjects = async (val) => {
         props.show_progress()
         try {
             const result = await props.get_questions_by_subject({
-                subject: selectedSubject
+                subject: val
             })
             setQuestions(result.data.questions)
         } catch (err) {
@@ -64,13 +67,49 @@ const Questions = (props) => {
         props.hide_progress()
     }
 
-    const filterByStatus = (val) => {
+    const filterByStatus = async (val) => {
+        if (val == 'ALL') {
+            getQuestions()
+            return true
+        }
+        props.show_progress()
+        try {
+            const result = val == 'Active' ? await props.get_active_questions() : await props.get_inactive_questions()
+            setQuestions(result.data.questions)
+        } catch (err) {
+            props.show_error({
+                message: "Unable to fetch questions"
+            })
+        }
+        props.hide_progress()
+    }
 
+    const updateQuestion = async (update, questionId) => {
+        props.show_progress()
+        try {
+            props.update_question({
+                questionId: questionId,
+                data: update
+            })
+        } catch (err) {
+            props.show_error({
+                message: "Unable to update"
+            })
+        }
+        props.hide_progress()
     }
 
     return (
         <>
-            <TemplateHeader header="Questions" />
+            <TemplateHeader header="Questions" more={
+                <div className="col-auto text-right">
+                    <a onClick={
+                        e => props.history.push('/questions/add-question')
+                    } className="btn btn-primary add-button ml-3">
+                        <i className="fas fa-plus"></i>
+                    </a>
+                </div>
+            } />
             <div className="row">
                 <div className="col-md-12">
                     <div className="card">
@@ -79,24 +118,30 @@ const Questions = (props) => {
                             <br />
                             <div className="row">
                                 <div className="col-sm-4">
+                                    <label htmlFor="">Filter by subject</label>
                                     <select className="form-control" onChange={
                                         e => {
-                                            setSelectedSubject(e.target.value)
-                                            getBySubjects()
+                                            getBySubjects(e.target.value)
                                         }
                                     }>
-                                        <option>--filter by subject--</option>
+                                        <option defaultValue disabled>--filter by subject--</option>
                                         {
                                             subjects.map((subject, index) => {
                                                 return (
-                                                    <option {...selectedSubject === subject._id ? 'selected' : ''} value={subject._id}>{subject.subject}</option>
+                                                    <option key={index + 1} value={subject._id}>{subject.subject}</option>
                                                 )
                                             })
                                         }
                                     </select>
                                 </div>
+                                <div className="col-sm-4 d-flex align-items-center justify-content-center mt-4">
+                                    OR
+                                </div>
                                 <div className="col-sm-4">
-                                    <select className="form-control" onChange={e => filterByStatus(e.target.value)}>
+                                    <label htmlFor="">Filter by status</label>
+                                    <select className="form-control" onChange={e => {
+                                        filterByStatus(e.target.value)
+                                    }}>
                                         <option value="ALL">All</option>
                                         <option value="Active">Active</option>
                                         <option value="Inactive">Inactive</option>
@@ -125,7 +170,7 @@ const Questions = (props) => {
                                         {
                                             questions.map((object, index) => {
                                                 return (
-                                                    <tr>
+                                                    <tr key={index + 1}>
                                                         <td>{index + 1}</td>
                                                         <td>{object.subject}</td>
                                                         <td>{object.question}</td>
@@ -137,7 +182,22 @@ const Questions = (props) => {
                                                         </td>
                                                         <td>{object.answer}</td>
                                                         <td>{object.added_on}</td>
-                                                        <td>{object.is_active}</td>
+                                                        <td>
+                                                            {
+                                                                <BootstrapSwitchButton
+                                                                    checked={object.is_active == 'Active'}
+                                                                    onlabel=''
+                                                                    offlabel=''
+                                                                    size="sm"
+                                                                    key={index + 1}
+                                                                    onChange={(checked) => {
+                                                                        updateQuestion({
+                                                                            'is_active': checked ? 'Active' : 'Inactive'
+                                                                        }, object._id)
+                                                                    }}
+                                                                />
+                                                            }
+                                                        </td>
                                                         <td>
                                                             <a href="edit-category.html" className="btn btn-sm bg-success-light mr-2">	<i className="far fa-edit mr-1"></i> Edit</a>
                                                         </td>
@@ -167,6 +227,9 @@ const MapDispatchToProps = (dispatch) => {
         hide_progress: () => dispatch(hide_progress()),
         get_all_questions: () => dispatch(get_all_questions()),
         get_all_subjects: () => dispatch(get_all_subjects()),
+        get_active_questions: () => dispatch(get_active_questions()),
+        get_inactive_questions: () => dispatch(get_inactive_questions()),
+        update_question: (payload) => dispatch(update_question(payload)),
         get_questions_by_subject: (payload) => dispatch(get_questions_by_subject(payload)),
         show_modal: (payload) => dispatch(show_modal(payload)),
         hide_modal: () => dispatch(hide_modal())

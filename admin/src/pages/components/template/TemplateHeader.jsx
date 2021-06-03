@@ -1,12 +1,13 @@
 import React from 'react'
 
-const TemplateHeader = ({ header }) => {
+const TemplateHeader = ({ header, more }) => {
     return (
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <h3 class="page-title">{header}</h3>
+        <div className="page-header">
+            <div className="row">
+                <div className="col">
+                    <h3 className="page-title">{header}</h3>
                 </div>
+                {more}
             </div>
         </div>
     )
