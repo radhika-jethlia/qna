@@ -60,7 +60,7 @@ export const updateQuestion = async (req, res, body) => {
             }, {
                 $set: req.body
             })
-            res.status(500)
+            res.status(200)
                 .json({
                     message: 'Question updated successfully',
                     result
@@ -78,7 +78,6 @@ export const updateQuestion = async (req, res, body) => {
 export const getAllQuestions = async (req, res, next) => {
     try {
         const questions = await QuestionsModel.find()
-        console.log(questions.subject)
         return res.status(200)
             .json({
                 questions,
@@ -163,7 +162,7 @@ export const getQuestionsBySubject = async (req, res, next) => {
         })
         return res.status(200)
             .json({
-                questions: questions
+                questions
             })
     } catch (err) {
         return res.status(500)
