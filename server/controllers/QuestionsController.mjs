@@ -77,11 +77,10 @@ export const updateQuestion = async (req, res, body) => {
 
 export const getAllQuestions = async (req, res, next) => {
     try {
-        const questions = await QuestionsModel.find()
+        const questions = await QuestionsModel.find().populate('subject')
         return res.status(200)
             .json({
-                questions,
-                // subject: await SubjectsSchema.findById(questions.subject)
+                questions
             })
     } catch (err) {
         return res.status(500)
@@ -96,7 +95,7 @@ export const getActiveQuestions = async (req, res, next) => {
     try {
         const questions = await QuestionsModel.find({
             is_active: "Active"
-        })
+        }).populate('subject')
         return res.status(200)
             .json({
                 questions
@@ -114,7 +113,7 @@ export const getInactiveQuestions = async (req, res, next) => {
     try {
         const questions = await QuestionsModel.find({
             is_active: "Inactive"
-        })
+        }).populate('subject')
         return res.status(200)
             .json({
                 questions
@@ -151,7 +150,7 @@ export const getQuestionById = async (req, res, next) => {
             .json({
                 question
             })
-    })
+    }).populate('subject')
 }
 
 export const getQuestionsBySubject = async (req, res, next) => {
@@ -159,7 +158,7 @@ export const getQuestionsBySubject = async (req, res, next) => {
     try {
         const questions = await QuestionsModel.find({
             subject: subjectId
-        })
+        }).populate('subject')
         return res.status(200)
             .json({
                 questions
@@ -178,7 +177,7 @@ export const getRandomQuestionsBySubject = async (req, res, next) => {
     try {
         const questions = await QuestionsModel.find({
             subject: subjectId
-        }).limit(QUESTIONS_PER_GAME)
+        }).limit(QUESTIONS_PER_GAME).populate('subject')
         return res.status(200)
             .json({
                 questions: await shuffle(questions)
@@ -198,7 +197,7 @@ export const getRandomQuestions = async (req, res, next) => {
         return res.status(200)
             .json({
                 questions: await shuffle(questions)
-            })
+            }).populate('subject')
     } catch (err) {
         return res.status(500)
             .json({

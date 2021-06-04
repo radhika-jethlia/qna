@@ -5,7 +5,8 @@ import {
     GET_ACTIVE_QUESTIONS,
     GET_INACTIVE_QUESTIONS,
     UPDATE_QUESTION,
-    ADD_QUESTION
+    ADD_QUESTION,
+    GET_QUESTION_BY_ID
 } from '../../utils/API'
 
 
@@ -72,5 +73,16 @@ export const add_question = (payload) => {
             }
         }
         return Axios.post(ADD_QUESTION, payload.data, config)
+    }
+}
+
+export const get_question_by_id = (payload) => {
+    return (dispatch) => {
+        const config = {
+            headers: {
+                'Authorization': localStorage.getItem('jsonwebtoken')
+            }
+        }
+        return Axios.get(GET_QUESTION_BY_ID + '' + payload.questionId, config)
     }
 }

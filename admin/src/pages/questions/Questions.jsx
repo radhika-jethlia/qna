@@ -16,6 +16,7 @@ import {
     get_inactive_questions,
     update_question
 } from '../../redux/actions/QuestionActions.js'
+import { Backdrop, CircularProgress } from '@material-ui/core'
 
 const Questions = (props) => {
     const [questions, setQuestions] = useState([])
@@ -27,7 +28,6 @@ const Questions = (props) => {
     }, [])
 
     const getQuestions = async () => {
-        props.show_progress()
         try {
             const result = await props.get_all_questions()
             setQuestions(result.data.questions)
@@ -36,11 +36,9 @@ const Questions = (props) => {
                 message: "Unable to fetch questions"
             })
         }
-        props.hide_progress()
     }
 
     const getSubjects = async () => {
-        props.show_progress()
         try {
             const result = await props.get_all_subjects()
             setSubjects(result.data.subjectsList)
@@ -49,7 +47,6 @@ const Questions = (props) => {
                 message: "Unable to fetch subjects"
             })
         }
-        props.hide_progress()
     }
 
     const getBySubjects = async (val) => {
@@ -124,7 +121,7 @@ const Questions = (props) => {
                                             getBySubjects(e.target.value)
                                         }
                                     }>
-                                        <option defaultValue disabled>--filter by subject--</option>
+                                        <option defaultValue>{_.isEmpty(subjects) ? '--loading--' : '--filter by subject--'}</option>
                                         {
                                             subjects.map((subject, index) => {
                                                 return (
@@ -168,11 +165,19 @@ const Questions = (props) => {
                                     </thead>
                                     <tbody>
                                         {
-                                            questions.map((object, index) => {
+                                            _.isEmpty(questions) &&
+                                            <tr>
+                                                <td colSpan={8}>
+                                                    <center className={'mt-2'}><CircularProgress /></center>
+                                                </td>
+                                            </tr>
+                                        }
+                                        {
+                                            questions && questions.map((object, index) => {
                                                 return (
                                                     <tr key={index + 1}>
                                                         <td>{index + 1}</td>
-                                                        <td>{object.subject}</td>
+                                                        <td>{object.subject.subject}</td>
                                                         <td>{object.question}</td>
                                                         <td>
                                                             A: {object.option_a}<br />
@@ -199,7 +204,9 @@ const Questions = (props) => {
                                                             }
                                                         </td>
                                                         <td>
-                                                            <a href="edit-category.html" className="btn btn-sm bg-success-light mr-2">	<i className="far fa-edit mr-1"></i> Edit</a>
+                                                            <a onClick={
+                                                                e => props.history.push('/question/edit/' + object._id)
+                                                            } className="btn btn-sm bg-success-light mr-2">	<i className="far fa-edit mr-1"></i> Edit</a>
                                                         </td>
                                                     </tr>
                                                 )

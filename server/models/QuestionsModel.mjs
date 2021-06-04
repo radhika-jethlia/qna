@@ -10,7 +10,8 @@ const Question = new mongoose.Schema({
     subject: {
         type: mongoose.Schema.Types.ObjectId,
         trim: true,
-        required: true
+        required: true,
+        ref: "subjects"
     },
     option_a: {
         type: String,
