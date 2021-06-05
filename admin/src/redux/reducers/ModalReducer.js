@@ -17,9 +17,7 @@ export default (state = initialState, action) => {
                 ...state,
                 isOpenModal: true,
                 title: action.payload.title,
-                formBody: action.payload.formBody,
-                errors: action.payload.errors,
-                submitButton: action.payload.submitButton
+                image: action.payload.image
             }
 
         case HIDE_MODAL:

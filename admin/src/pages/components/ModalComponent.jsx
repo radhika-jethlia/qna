@@ -52,16 +52,20 @@ const ModalDialog = (props) => {
                             {props.modal.title}
                         </Typography>
                         <Button onClick={
-                            e => props.modal.submitButton()
+                            e => props.hide_modal()
                         } form='modalForm' type="submit" autoFocus color="inherit">
-                            Save
+                            Close
                     </Button>
                     </Toolbar>
                 </AppBar>
                 <List>
                     <Container>
                         {
-                            props.modal.formBody
+                            <img src={props.modal.image} alt={props.modal.title} style={{
+                                objectFit: 'cover',
+                                height: '40%',
+                                width: '60%',
+                            }} />
                         }
                     </Container>
                 </List>

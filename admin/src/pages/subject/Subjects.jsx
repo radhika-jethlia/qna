@@ -117,7 +117,12 @@ const Subjects = (props) => {
 													<tr key={index + 1}>
 														<td>{index + 1}</td>
 														<td>
-															<img className="rounded service-img mr-1" src={BASE_URI + '/' + object.file_name} alt="Subject Image" />&emsp;{object.subject}</td>
+															<img className="rounded service-img mr-1 crsr" src={BASE_URI + '/' + object.file_name} onClick={
+																e => props.show_modal({
+																	title: object.subject,
+																	image: BASE_URI + '/' + object.file_name
+																})
+															} alt="Subject Image" />&emsp;{object.subject}</td>
 														<td>{object.added_on}</td>
 														<td>
 															{

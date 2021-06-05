@@ -88,7 +88,12 @@ const Sliders = (props) => {
 													<tr key={index + 1}>
 														<td>{index + 1}</td>
 														<td>
-															<img className="rounded service-img mr-1" src={BASE_URI + '/' + object.file_name} alt="Subject Image" />&emsp;{object.heading}</td>
+															<img className="rounded service-img mr-1" onClick={
+																e => props.show_modal({
+																	title: object.heading,
+																	image: BASE_URI + '/' + object.file_name
+																})
+															} src={BASE_URI + '/' + object.file_name} alt="Slider Image" />&emsp;{object.heading}</td>
 														<td>{object.added_on}</td>
 														<td>
 															{
