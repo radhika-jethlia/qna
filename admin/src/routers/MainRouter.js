@@ -42,6 +42,7 @@ const Dashboard = React.lazy(() => {
 const Password = React.lazy(() => import('../pages/profile/Password'))
 const Subjects = React.lazy(() => import('../pages/subject/Subjects'))
 const AddSubject = React.lazy(() => import('../pages/subject/AddSubject'))
+const EditSubject = React.lazy(() => import('../pages/subject/EditSubject'))
 
 const Questions = React.lazy(() => import('../pages/questions/Questions'))
 const AddQuestions = React.lazy(() => import('../pages/questions/AddQuestion'))
@@ -128,6 +129,7 @@ let MainRouter = (props) => {
 
                     <PrivateRoute exact path={'/subjects'} authorized={props.authentication.isAuthorized} component={Subjects} />
                     <PrivateRoute exact path={'/subjects/add'} authorized={props.authentication.isAuthorized} component={AddSubject} />
+                    <PrivateRoute exact path={'/subjects/edit/:subjectId'} authorized={props.authentication.isAuthorized} component={EditSubject} />
 
                     <PrivateRoute exact path={'/questions'} authorized={props.authentication.isAuthorized} component={Questions} />
                     <PrivateRoute exact path={'/questions/add-question'} authorized={props.authentication.isAuthorized} component={AddQuestions} />

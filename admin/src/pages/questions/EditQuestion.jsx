@@ -19,7 +19,7 @@ import {
     get_question_by_id,
     update_question
 } from '../../redux/actions/QuestionActions.js'
-import { Backdrop, CircularProgress } from '@material-ui/core'
+import { CircularProgress } from '@material-ui/core'
 
 const EditQuestion = (props) => {
     useEffect(() => {

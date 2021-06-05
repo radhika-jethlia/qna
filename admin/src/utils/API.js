@@ -16,7 +16,9 @@ export const PASSWORD_UPDATE = API_ROOT + 'auth/update/password'
  * SUBJECTS APIS
  */
 export const GET_ALL_SUBJECTS = API_ROOT + 'subjects/all_subjects'
-export const GET_SUBJECT_BY_ID = API_ROOT + 'subjects/get_subject/:subjectId'
+export const ADD_SUBJECTS = API_ROOT + 'subjects/add_subject'
+export const UPDATE_SUBJECT = API_ROOT + 'subjects/update_subject/'
+export const GET_SUBJECT_BY_ID = API_ROOT + 'subjects/get_subject/'
 
 /**
  * SLIDER APIS
