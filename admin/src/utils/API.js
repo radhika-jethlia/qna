@@ -24,8 +24,10 @@ export const GET_SUBJECT_BY_ID = API_ROOT + 'subjects/get_subject/'
  * SLIDER APIS
  */
 export const GET_ACTIVE_SLIDERS = API_ROOT + 'ads/get_active_ads'
-export const GET_SLIDER_BY_ID = API_ROOT + 'ads/get_ad_by_id/:adId'
+export const GET_SLIDER_BY_ID = API_ROOT + 'ads/get_ad_by_id/'
 export const GET_ALL_SLIDERS = API_ROOT + 'ads/get_ads'
+export const UPDATE_SLIDER = API_ROOT + 'ads/update/'
+export const ADD_SLIDER = API_ROOT + 'ads/add'
 
 /**
  * QUESTION APIS

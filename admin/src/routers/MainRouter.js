@@ -48,6 +48,10 @@ const Questions = React.lazy(() => import('../pages/questions/Questions'))
 const AddQuestions = React.lazy(() => import('../pages/questions/AddQuestion'))
 const EditQuestion = React.lazy(() => import('../pages/questions/EditQuestion'))
 
+const Sliders = React.lazy(() => import('../pages/sliders/Sliders'))
+const AddSlider = React.lazy(() => import('../pages/sliders/AddSlider'))
+const EditSlider = React.lazy(() => import('../pages/sliders/EditSlider'))
+
 const FallBackLoader = () => {
     const classes = useStyles()
     return (
@@ -134,6 +138,10 @@ let MainRouter = (props) => {
                     <PrivateRoute exact path={'/questions'} authorized={props.authentication.isAuthorized} component={Questions} />
                     <PrivateRoute exact path={'/questions/add-question'} authorized={props.authentication.isAuthorized} component={AddQuestions} />
                     <PrivateRoute exact path={'/question/edit/:questionId'} authorized={props.authentication.isAuthorized} component={EditQuestion} />
+
+                    <PrivateRoute exact path={'/sliders'} authorized={props.authentication.isAuthorized} component={Sliders} />
+                    <PrivateRoute exact path={'/sliders/add'} authorized={props.authentication.isAuthorized} component={AddSlider} />
+                    <PrivateRoute exact path={'/sliders/edit/:sliderId'} authorized={props.authentication.isAuthorized} component={EditSlider} />
 
                     {/* logout */}
                     <Route exact path={'/logout'} render={() => {
