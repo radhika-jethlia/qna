@@ -171,14 +171,6 @@ let Login = (props) => {
                     onClick={signin}
                 >
                     Sign In</Button>
-                <Grid container>
-                    <Grid item xs>
-                        <a onClick={
-                            e => props.history.push('/reset')
-                        } variant="body2">
-                            Forgot password?</a>
-                    </Grid>
-                </Grid>
             </div>
             <Box mt={8}>
                 <Copyright />
