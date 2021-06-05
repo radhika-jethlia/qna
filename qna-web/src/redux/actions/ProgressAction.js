@@ -1,7 +1,7 @@
 import {
     PROGRESS_OPEN,
     PROGRESS_CLOSE
-} from '../ReduxConstants'
+} from '../Constants'
 
 export const show_progress = () => {
     return {

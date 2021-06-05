@@ -10,8 +10,9 @@ import ScrollRestoration from 'react-scroll-restoration'
 import { connect } from 'react-redux'
 import ProgressBar from '../pages/components/LoadingComponent.jsx'
 import React from "react"
-import { Backdrop, CircularProgress } from '@material-ui/core'
+import { Backdrop, LinearProgress } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import ModalComponent from "../pages/components/ModalComponent.jsx"
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
@@ -28,8 +29,25 @@ const FallBackLoader = () => {
     const classes = useStyles()
     return (
         <Backdrop className={classes.backdrop} open={true}>
-            <CircularProgress />
+            <LinearProgress />
         </Backdrop>
+    )
+}
+
+
+const ModifiedRoute = ({ component: Component, ...rest }) => {
+    return (
+        <Route
+            {...rest}
+            render={(routeProps) => {
+                return (
+                    <React.Suspense fallback={<FallBackLoader />}>
+                        {/* <Layout Content={<Component {...routeProps} />} /> */}
+                        <Component {...routeProps} />
+                    </React.Suspense>
+                )
+            }}
+        />
     )
 }
 
@@ -39,12 +57,13 @@ let MainRouter = (props) => {
             <Router>
                 <ProgressBar />
                 <ScrollRestoration />
+                <ModalComponent />
                 <Switch>
                     <Route exact path={'/'}
                         render={(routeProps) => {
                             return (
                                 <>
-                                    {props.gamq.isGameRunning ? (
+                                    {props.game.isGameRunning ? (
                                         <Redirect
                                             to={{
                                                 pathname: "/play",
@@ -56,7 +75,7 @@ let MainRouter = (props) => {
                                     ) : (
                                         <Redirect
                                             to={{
-                                                pathname: "/",
+                                                pathname: "/start",
                                                 state: {
                                                     from: props.location,
                                                 },
@@ -67,7 +86,7 @@ let MainRouter = (props) => {
                             );
                         }}
                     />
-                    <Route exact path={'/play'} component={LandingPage} />
+                    <ModifiedRoute exact path={'/start'} component={LandingPage} />
 
                     {/* 404 page */}
                     <Route exact path="" render={() => <center><h3>404! Nothing to do here</h3></center>} />
