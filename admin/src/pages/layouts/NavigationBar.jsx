@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 
 const NavigationBar = (props) => {
     return (
@@ -54,12 +55,16 @@ const NavigationBar = (props) => {
                             <li className="nav-item dropdown">
                                 <span className="dropdown-toggle user-link  nav-link" data-toggle="dropdown">
                                     <span className="user-img">
-                                        <img className="rounded-circle" src="assets/img/user.jpg" width="40" alt="Admin" />
+                                        <img className="rounded-circle" src="assets/img/logo-icon.png" width="40" alt="Admin" />
                                     </span>
                                 </span>
                                 <div className="dropdown-menu dropdown-menu-right">
-                                    <a className="dropdown-item" href="admin-profile.html">Profile</a>
-                                    <a className="dropdown-item" href="login.html">Logout</a>
+                                    <a className="dropdown-item" onClick={
+                                        e => props.history.push('/password')
+                                    }>Profile</a>
+                                    <a className="dropdown-item" onClick={
+                                        e => props.history.push('/logout')
+                                    }>Logout</a>
                                 </div>
                             </li>
                         {/* </ul> */}
@@ -70,4 +75,4 @@ const NavigationBar = (props) => {
     )
 }
 
-export default NavigationBar
+export default withRouter(NavigationBar)

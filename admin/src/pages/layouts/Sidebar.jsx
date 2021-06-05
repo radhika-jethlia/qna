@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 
 const Sidebar = (props) => {
-    const [path, setPath] = useState('')
-    useEffect(() => {
-        setPath(window.location.href.replace('//', "").split('/')[2])
-    }, [path])
 
     return (
         <>
@@ -18,23 +14,23 @@ const Sidebar = (props) => {
                 <div className="sidebar-inner slimscroll">
                     <div id="sidebar-menu" className="sidebar-menu">
                         <ul>
-                            <li className={path == 'dashboard' ? 'active' : null}>
-                                <Link replace to={'/dashboard'} className={'no-underline'}><i className="fas fa-columns"></i> <span> Dashboard </span></Link>
+                            <li className={props.history.location.pathname == '/dashboard' ? 'active' : null}>
+                                <Link replace to={'/dashboard'} className={'no-underline'}><i className="fas fa-home"></i> <span> Dashboard </span></Link>
                             </li>
-                            <li>
-                                <Link to={'/subjects'} className={'no-underline'}><i className="fab fa-buffer"></i> <span>Subjects</span></Link>
+                            <li className={props.history.location.pathname == '/subjects' ? 'active' : null}>
+                                <Link to={'/subjects'} className={'no-underline'}><i className="fas fa-subscript"></i> <span>Subjects</span></Link>
                             </li>
-                            <li className={path == 'questions' ? 'active' : null}>
+                            <li className={props.history.location.pathname == '/questions' ? 'active' : null}>
                                 <Link to={'/questions'} className={'no-underline'}><i className="fas fa-question-circle"></i> <span>Questions</span></Link>
                             </li>
-                            <li className={path == 'sliders' ? 'active' : null}>
-                                <Link to={'/sliders'} className={'no-underline'}><i className="fas fa-question-circle"></i> <span>Sliders</span></Link>
+                            <li className={props.history.location.pathname == '/sliders' ? 'active' : null}>
+                                <Link to={'/sliders'} className={'no-underline'}><i className="fa fa-camera"></i> <span>Sliders</span></Link>
                             </li>
-                            <li className={path == 'password' ? 'active' : null}>
-                                <Link to={'/password'} className={'no-underline'}><i className="fas fa-user-shield"></i> <span>Profile</span></Link>
+                            <li className={props.history.location.pathname == '/password' ? 'active' : null}>
+                                <Link to={'/password'} className={'no-underline'}><i className="fa fa-cog"></i> <span>Profile</span></Link>
                             </li>
-                            <li className={path == 'logout' ? 'active' : null}>
-                                <Link to={'/logout'} className={'no-underline'}><i className="fas fa-user-shield"></i> <span>Logout</span></Link>
+                            <li className={props.history.location.pathname == '/logout' ? 'active' : null}>
+                                <Link to={'/logout'} className={'no-underline'}><i className="fa fa-arrow-left"></i> <span>Logout</span></Link>
                             </li>
                         </ul>
                     </div>
