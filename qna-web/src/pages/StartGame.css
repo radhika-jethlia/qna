@@ -1,0 +1,24 @@
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bolder;
+  font-size: larger;
+}
+
+.correct {
+  background-color: rgb(56, 189, 56);
+  color: white;
+}
+
+.incorrect {
+  background-color: rgb(245, 65, 65);
+  color: white;
+}
