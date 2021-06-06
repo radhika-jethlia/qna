@@ -6,7 +6,9 @@ import {
     GridListTile,
     GridListTileBar,
     ListSubheader,
-    IconButton
+    IconButton,
+    Zoom,
+    Paper
 } from '@material-ui/core'
 // import InfoIcon from '@material-ui/icons/InfoIcon';
 import _ from 'lodash'
@@ -25,7 +27,8 @@ import {
 import {
     get_active_subjects
 } from '../redux/actions/SubjectActions'
-import { BASE_URI } from '../utils/API';
+import { BASE_URI } from '../utils/API'
+import StartScreen from '../pages/components/StartScreen'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
     },
+    paper: {
+        margin: theme.spacing(1),
+    },
 }));
 
 const LandingPage = (props) => {
@@ -49,8 +55,12 @@ const LandingPage = (props) => {
 
     const [subjects, setSubjects] = useState([])
     const [stats, setStats] = useState()
+    const [selectedSubject, setSelectedSubject] = useState('')
 
     useEffect(() => {
+        if (props.game.isGameRunning) {
+            props.history.push('/play')
+        }
         getSubjects()
     }, [])
 
@@ -70,7 +80,7 @@ const LandingPage = (props) => {
                 })
                 localStorage.setItem('qna_game_stats', storageObject)
             }
-            setStats(localStorage.getItem('qna_game_stats'))
+            // setStats(localStorage.getItem('qna_game_stats'))
         } catch (err) {
             console.log(err)
         }
@@ -88,15 +98,31 @@ const LandingPage = (props) => {
                             <ListSubheader component="div">Select a subject</ListSubheader>
                         </GridListTile>
                         {subjects.map((object, index) => (
-                            <GridListTile key={index + 1}>
-                                <img src={BASE_URI + '/' + object.file_name} alt={object.subject} />
-                                <GridListTileBar
-                                    title={object.subject}
-                                    actionIcon={
-                                        <IconButton aria-label={`info about ${object.subject}`} className={classes.icon}>
-                                        </IconButton>
-                                    }
-                                />
+                            <GridListTile key={index + 1} onClick={
+                                e => {
+                                    setSelectedSubject(object._id)
+                                    props.hide_modal()
+                                    props.show_modal({
+                                        title: 'Start game',
+                                        body: <StartScreen subject={object} />
+                                    })
+                                }
+                            }>
+                                <Zoom in={true} style={{ transitionDelay: index * 50 }}>
+                                    <Paper elevation={4} className={classes.paper}>
+                                        <img src={BASE_URI + '/' + object.file_name} alt={object.subject} style={{
+                                            height: '100%',
+                                            width: '100%'
+                                        }} />
+                                        <GridListTileBar
+                                            title={object.subject}
+                                            actionIcon={
+                                                <IconButton aria-label={`info about ${object.subject}`} className={classes.icon}>
+                                                </IconButton>
+                                            }
+                                        />
+                                    </Paper>
+                                </Zoom>
                             </GridListTile>
                         ))}
                     </GridList>
@@ -111,7 +137,7 @@ const LandingPage = (props) => {
                 !_.isEmpty(stats) &&
                 JSON.parse(stats).map((stat, index) => {
                     return (
-                        <center>{stat.subject}: {stat.score}</center>
+                        <h3>{stat.subject}: {stat.score}</h3>
                     )
                 })
             }
@@ -124,11 +150,17 @@ const LandingPage = (props) => {
                     title: 'Select Topic',
                     body: <SubjectsBody />
                 })
-            }>Start</h3>
+            }>Play</h3>
         </>
     )
 }
 
+const MapStateToProps = (state) => {
+    return {
+        modal: state.modal,
+        game: state.game
+    }
+}
 const MapDispatchToProps = (dispatch) => {
     return {
         game_start: () => dispatch(game_start()),
@@ -140,4 +172,4 @@ const MapDispatchToProps = (dispatch) => {
         get_active_subjects: () => dispatch(get_active_subjects())
     }
 }
-export default connect(null, MapDispatchToProps)(LandingPage)
+export default connect(MapStateToProps, MapDispatchToProps)(LandingPage)

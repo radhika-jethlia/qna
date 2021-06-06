@@ -10,6 +10,10 @@ export const HIDE_DIALOG = "HIDE_DIALOG"
  */
 export const GAME_START = "GAME_START"
 export const GAME_END = "GAME_END"
+export const GET_RANDOM_QUESTIONS_FROM_SUBJECT = "GET_RANDOM_QUESTIONS_FROM_SUBJECT"
+export const ADD_LIVE = "ADD_LIVE"
+export const DEDUCT_LIVE = "DEDUCT_LIVE"
+export const REACHED_QUESTION = "REACHED_QUESTION"
 
 /**
  * progress

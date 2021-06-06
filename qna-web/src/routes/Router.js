@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 // async Pages, import using lazy loader
 
 const LandingPage = React.lazy(() => import('../pages/LandingPage'))
+const StartGame = React.lazy(() => import('../pages/StartGame'))
 
 const FallBackLoader = () => {
     const classes = useStyles()
@@ -87,6 +88,7 @@ let MainRouter = (props) => {
                         }}
                     />
                     <ModifiedRoute exact path={'/start'} component={LandingPage} />
+                    <ModifiedRoute exact path={'/play'} component={StartGame} />
 
                     {/* 404 page */}
                     <Route exact path="" render={() => <center><h3>404! Nothing to do here</h3></center>} />
