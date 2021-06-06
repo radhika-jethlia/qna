@@ -123,13 +123,13 @@ const StartGame = (props) => {
                 question.answer === 'C',
                 question.answer === 'D',
             ])
-
             new Promise((resolve) => {
                 resolve(
                     setTimeout(() => {
                         setIsCorrect([false, false, false, false])
                         setIsInCorrect([false, false, false, false])
                         setCurrentQuestion(currentQuestion + 1)
+                        setTime(20)
                     }, 800)
                 )
             })
@@ -159,7 +159,7 @@ const StartGame = (props) => {
                             </Grid>
                             <Grid item xs={6}>
                                 <p>Time: </p>
-                                <p>{time}</p>
+                                <p><span className={time > 5 ? 'correct blinking' : 'incorrect blinking'}>{time}</span></p>
                             </Grid>
                         </Grid>
                         <Grid container>

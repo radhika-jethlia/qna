@@ -14,10 +14,15 @@ import {
     get_random_questions_from_subject
 } from '../../redux/actions/GameActions'
 import { withRouter } from 'react-router'
+import './StartScreen.css'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
         margin: theme.spacing(1),
+        paddingTop: theme.spacing(5),
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(2),
+        paddingBottom: theme.spacing(5)
     },
 }));
 
@@ -43,10 +48,10 @@ let StartScreen = (props) => {
     return (
         <Grow in={true} style={{ transitionDelay: '50ms' }}>
             <Paper elevation={4} className={classes.paper}>
-                Start game?<br />
-                Selected topic: {props.subject.subject}<br />
-                Game Rules
-            <ul>
+                <h2 className={'center'}>Start game?</h2>
+                <p className={'center'}>Selected topic: {props.subject.subject}</p>
+                <h3 className={'center'}>Game Rules</h3>
+                <ul className={'lists'}>
                     <li>Answer the questions as fast as you can.</li>
                     <li>You've 20 seconds to answer each question.</li>
                     <li>You have 5 lives.</li>
@@ -54,9 +59,9 @@ let StartScreen = (props) => {
                     <li>The faster you answer, the more points you earn.</li>
                 </ul>
                 <br />
-                <h4 onClick={
+                <button className={'center'} onClick={
                     e => getMyQuestions(props.subject._id)
-                }>LET'S PLAY</h4>
+                }>LET'S PLAY</button>
             </Paper>
         </Grow>
     )

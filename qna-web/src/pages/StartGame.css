@@ -16,9 +16,23 @@
 .correct {
   background-color: rgb(56, 189, 56);
   color: white;
+  animation: blinker 1s linear infinite;
 }
 
 .incorrect {
-  background-color: rgb(245, 65, 65);
+  background-color: red;
   color: white;
+  animation: blinker 1s linear infinite;
+}
+
+.blinking {
+  animation: blinker 1s linear infinite;
+  border-radius: 20px;
+  padding: .6em;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }
