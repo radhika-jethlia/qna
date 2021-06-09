@@ -22,7 +22,7 @@ span {
   letter-spacing: 5px;
 }
 
-&:after {
+/* &:after {
   position: absolute;
   top: 10px;
   left: 10px;
@@ -45,4 +45,4 @@ span {
   &:after {
     width: 100%;
   }
-}
+} */
