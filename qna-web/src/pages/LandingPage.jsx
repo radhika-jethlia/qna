@@ -29,6 +29,7 @@ import {
 } from '../redux/actions/SubjectActions'
 import { BASE_URI } from '../utils/API'
 import StartScreen from '../pages/components/StartScreen'
+import RandomQuestionsImage from '../assets/images/random.jpg'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -97,8 +98,34 @@ const LandingPage = (props) => {
                         <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
                             <ListSubheader component="div">Select a subject</ListSubheader>
                         </GridListTile>
+                        <GridListTile key={1} onClick={
+                            e => {
+                                setSelectedSubject('random')
+                                props.hide_modal()
+                                props.show_modal({
+                                    title: 'Start game',
+                                    body: <StartScreen subject={'Random Questions'} />
+                                })
+                            }
+                        }>
+                            <Zoom in={true} style={{ transitionDelay: 50 }}>
+                                <Paper elevation={4} className={classes.paper}>
+                                    <img src={RandomQuestionsImage} alt={'Random Questions Image'} style={{
+                                        height: '100%',
+                                        width: '100%'
+                                    }} />
+                                    <GridListTileBar
+                                        title={'Random Questions'}
+                                        actionIcon={
+                                            <IconButton aria-label={`info about Random Questions`} className={classes.icon}>
+                                            </IconButton>
+                                        }
+                                    />
+                                </Paper>
+                            </Zoom>
+                        </GridListTile>
                         {subjects.map((object, index) => (
-                            <GridListTile key={index + 1} onClick={
+                            <GridListTile key={index + 2} onClick={
                                 e => {
                                     setSelectedSubject(object._id)
                                     props.hide_modal()
