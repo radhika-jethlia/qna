@@ -4,10 +4,11 @@ import {
     GAME_END,
     ADD_LIVE,
     DEDUCT_LIVE,
-    REACHED_QUESTION
+    REACHED_QUESTION,
 } from '../Constants'
 import {
-    GET_QUESTIONS_FROM_SUBJECT
+    GET_QUESTIONS_FROM_SUBJECT,
+    GET_RANDOM_QUESTIONS
 } from '../../utils/API'
 
 export const game_start = (payload) => {
@@ -44,5 +45,11 @@ export const update_reached_question = () => {
 export const get_random_questions_from_subject = (payload) => {
     return (dispatch) => {
         return axios.get(GET_QUESTIONS_FROM_SUBJECT + payload.subjectId)
+    }
+}
+
+export const get_random_questions = () => {
+    return (dispatch) => {
+        return axios.get(GET_RANDOM_QUESTIONS)
     }
 }

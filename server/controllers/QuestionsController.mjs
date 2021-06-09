@@ -193,11 +193,11 @@ export const getRandomQuestionsBySubject = async (req, res, next) => {
 
 export const getRandomQuestions = async (req, res, next) => {
     try {
-        const questions = await QuestionsModel.find().limit(QUESTIONS_PER_GAME)
+        const questions = await QuestionsModel.find().limit(QUESTIONS_PER_GAME).populate('subject')
         return res.status(200)
             .json({
                 questions: await shuffle(questions)
-            }).populate('subject')
+            })
     } catch (err) {
         return res.status(500)
             .json({

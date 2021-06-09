@@ -96,7 +96,7 @@ const LandingPage = (props) => {
                     !_.isEmpty(subjects) &&
                     <GridList cellHeight={180} className={classes.gridList}>
                         <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-                            <ListSubheader component="div">Select a subject</ListSubheader>
+                            <ListSubheader component="div">Select a Topic</ListSubheader>
                         </GridListTile>
                         <GridListTile key={1} onClick={
                             e => {
@@ -137,10 +137,12 @@ const LandingPage = (props) => {
                             }>
                                 <Zoom in={true} style={{ transitionDelay: index * 50 }}>
                                     <Paper elevation={4} className={classes.paper}>
-                                        <img src={BASE_URI + '/' + object.file_name} alt={object.subject} style={{
-                                            height: '100%',
-                                            width: '100%'
-                                        }} />
+                                        <div className={'overlay-effect'}>
+                                            <img src={BASE_URI + '/' + object.file_name} alt={object.subject} style={{
+                                                height: '100%',
+                                                width: '100%'
+                                            }} />
+                                        </div>
                                         <GridListTileBar
                                             title={object.subject}
                                             actionIcon={
@@ -168,16 +170,18 @@ const LandingPage = (props) => {
                     )
                 })
             }
-            <h3 style={{
+            <div style={{
                 flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-            }} onClick={
-                e => props.show_modal({
-                    title: 'Select Topic',
-                    body: <SubjectsBody />
-                })
-            }>Play</h3>
+                alignItems: "center",
+                justifyContent: "center",
+            }}>
+                <h3 onClick={
+                    e => props.show_modal({
+                        title: 'Select Topic',
+                        body: <SubjectsBody />
+                    })
+                }>Play</h3>
+            </div>
         </>
     )
 }

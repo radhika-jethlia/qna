@@ -5,6 +5,7 @@
 .lists {
   font-size: 3vh;
   padding-left: -2em;
+  text-align: left;
 }
 
 button {

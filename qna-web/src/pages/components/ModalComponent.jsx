@@ -51,11 +51,11 @@ const ModalDialog = (props) => {
                         <Typography variant="h6" className={classes.title}>
                             {props.modal.title}
                         </Typography>
-                        <Button onClick={
+                        {/* <Button onClick={
                             e => props.hide_modal()
                         } form='modalForm' type="submit" autoFocus color="inherit">
-                            Close
-                    </Button>
+                            X
+                    </Button> */}
                     </Toolbar>
                 </AppBar>
                 <List>

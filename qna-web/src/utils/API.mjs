@@ -15,3 +15,4 @@ export const GET_ACTIVE_SUBJECTS = API_ROOT + 'subjects/active_subjects'
  * QUESTIONS APIS
  */
 export const GET_QUESTIONS_FROM_SUBJECT = API_ROOT + 'questions/get_questions_by_subject/'
+export const GET_RANDOM_QUESTIONS = API_ROOT + 'questions/get_random_questions/'
